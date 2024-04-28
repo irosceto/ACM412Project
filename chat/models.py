@@ -22,3 +22,12 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.sender.user_name} -> {self.recipient.user_name}: {self.content}"
+
+    class Profile(models.Model):
+        user = models.OneToOneField(User, on_delete=models.CASCADE)
+        chat_rooms = models.ManyToManyField(ChatRoom, related_name='memberships')
+        profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+
+        def __str__(self):
+            return self.user.username
+

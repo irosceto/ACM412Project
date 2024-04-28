@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import UserForm
+from .forms import ProfileForm
+from .models import Profile
 
 def signup(request):
     if request.method == 'POST':
@@ -35,3 +37,17 @@ def login(request):
     else:
         form = UserForm()
     return render(request, 'login/login.html', {'form': form})
+
+def profile(request):
+    # Kullanıcının mevcut profili varsa, bu profili al, yoksa None döndür
+    profile = Profile.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Profil sayfasına yönlendir
+    else:
+        form = ProfileForm(instance=profile)
+    
+    return render(request, 'profile/profile.html', {'form': form})

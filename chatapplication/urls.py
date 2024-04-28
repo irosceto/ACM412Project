@@ -27,6 +27,7 @@ urlpatterns = [
    # path('admin/', admin.site.urls),
     path('signup/', views.signup, name='signup'),  #kayıt için
     path('login/', views.login, name='login'), # login için
+    path('profile/', views.profile, name='profile'), # profil için
 ]
 
 # Medya dosyaları için URL pattern'i ekle

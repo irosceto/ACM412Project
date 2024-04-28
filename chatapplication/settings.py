@@ -13,7 +13,14 @@ import os
 from pathlib import Path
 
 # Ana dizin yolu
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# settings.py
+
+import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 
 # Medya dosyalarının kaydedileceği ana dizin
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -64,8 +71,10 @@ ROOT_URLCONF = 'chatapplication.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+
+
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,7 +96,7 @@ WSGI_APPLICATION = 'chatapplication.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

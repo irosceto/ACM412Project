@@ -29,7 +29,7 @@ def login(request):
                 # Kullanıcının tarayıcısına çerez ekle
                 response = HttpResponse("Başarılı giriş!")
                 response.set_cookie('username', username)
-                return response
+                return response  ### iki return olmaması için ne yapmalıyız, cookie de eklemek istiyoruz?
             else:
                 return HttpResponse("Geçersiz kullanıcı adı veya parola!")
     else:

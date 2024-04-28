@@ -38,9 +38,10 @@ def login(request):
         form = UserForm()
     return render(request, 'login/login.html', {'form': form})
 
+
 def profile(request):
     # Kullanıcının mevcut profili varsa, bu profili al, yoksa None döndür
-    profile = Profile.objects.filter(user=request.user).first()
+    profile = Profile.objects.filter(user=request.user.id).first()
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)

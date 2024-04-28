@@ -34,4 +34,4 @@ def login(request):
                 return HttpResponse("Geçersiz kullanıcı adı veya parola!")
     else:
         form = UserForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login/login.html', {'form': form})

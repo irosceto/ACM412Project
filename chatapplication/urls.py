@@ -23,7 +23,7 @@ from django.urls import path
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+   # path('admin/', admin.site.urls),
     path('signup/', views.signup, name='signup'),  #kayıt için
     path('login/', views.login, name='login'), # login için
 ]

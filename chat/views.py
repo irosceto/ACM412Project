@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import UserForm
@@ -20,7 +21,7 @@ def login(request):
             password = form.cleaned_data['user_password']
             email = form.cleaned_data['user_email']
             # Kullanıcıyı doğrula
-            user = authenticate(username=user_name, password=user_password, email=user_email)
+            user = authenticate(username=username, password=password, email=email)
             if user is not None:
                 # Kullanıcı doğrulandıysa, giriş yap
                 login(request, user)

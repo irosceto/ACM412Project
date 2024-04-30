@@ -1,6 +1,5 @@
 from django import forms
-from .models import User, Profile
-
+from .models import User, Profile, ChatRoom
 
 
 class ProfileForm(forms.ModelForm):
@@ -21,5 +20,5 @@ class ProfileForm(forms.ModelForm):
 def ChatRoomForm():
 
     class Meta:
-        model=ChatRoomForm()
-        fields=['chat_rooms' , 'members' , 'name']
+        model=ChatRoom
+        fields=[ 'members' , 'name']

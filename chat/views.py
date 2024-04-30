@@ -70,3 +70,12 @@ def create_chat_room(request):
    # return render(request, 'chat/create_room.html', {'form': form})
 
 
+
+def search_chat_room(request):
+    if request.method == 'POST':
+        search_query = request.POST.get('search_query')
+        chat_rooms = ChatRoom.objects.filter(name__icontains=search_query, members=request.user)
+        return render(request, 'your_template.html', {'chat_rooms': chat_rooms})
+    else:
+        chat_rooms = ChatRoom.objects.filter(members=request.user)
+        return render(request, 'your_template.html', {'chat_rooms': chat_rooms})

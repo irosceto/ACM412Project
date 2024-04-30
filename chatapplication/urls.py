@@ -25,9 +25,9 @@ from django.urls import path
 
 urlpatterns = [
    # path('admin/', admin.site.urls),
-    path('signup/', views.signup, name='signup'),  #kayıt için
-    path('login/', views.login, name='login'), # login için
-    path('profile/', views.profile, name='profile'), # profil için
+    path('register/', views.register, name='register'),  #kayıt için
+    path('login/', views.user_login, name='login'), # login için
+
 ]
 
 # Medya dosyaları için URL pattern'i ekle

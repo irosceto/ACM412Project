@@ -1,13 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-
-# Create your models here.
-
-class User(models.Model):
-    user_name = models.CharField(max_length=100)
-    user_email = models.EmailField(unique=True)
-    user_password = models.CharField(max_length=100)
+class User(AbstractUser):
     chat_rooms = models.ManyToManyField('ChatRoom', related_name='member')
+
 
 class ChatRoom(models.Model):
     name = models.CharField(max_length=100)
@@ -21,13 +17,12 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.sender.user_name} -> {self.recipient.user_name}: {self.content}"
+        return f"{self.sender.username} -> {self.recipient.username}: {self.content}"
 
 class Profile(models.Model):
-        user = models.OneToOneField(User, on_delete=models.CASCADE)
-        chat_rooms = models.ManyToManyField(ChatRoom, related_name='memberships')
-        profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    chat_rooms = models.ManyToManyField(ChatRoom, related_name='memberships')
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
-        def __str__(self):
-            return self.user.username
-
+    def __str__(self):
+        return self.user.username

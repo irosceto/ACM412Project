@@ -1,54 +1,70 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from .forms import UserForm
-from .forms import ProfileForm
-from .models import Profile
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout
 
-def signup(request):
+from chat.forms import ProfileForm, ChatRoomForm
+from chat.models import Profile, ChatRoom
+
+
+def register(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')  # Kullanıcı kaydı başarılı, giriş sayfasına yönlendir
+            user = form.save()
+            login(request, user)
+            return redirect('home')  # Burada 'home', kullanıcı kaydolduktan sonra yönlendirilecekleri URL'nin adı olmalı
     else:
-        form = UserForm()
+        form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-def login(request):
+def user_login(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data['user_name']
-            password = form.cleaned_data['user_password']
-            email = form.cleaned_data['user_email']
-            # Kullanıcıyı doğrula
-            user = authenticate(username=username, password=password, email=email)
-            if user is not None:
-                # Kullanıcı doğrulandıysa, giriş yap
-                login(request, user)
-                return redirect('home')  # Başarılı girişten sonra yönlendirilecek sayfa
-                # Kullanıcının tarayıcısına çerez ekle
-                response = HttpResponse("Başarılı giriş!")
-                response.set_cookie('username', username)
-                return response  ### iki return olmaması için ne yapmalıyız, cookie de eklemek istiyoruz?
-            else:
-                return HttpResponse("Geçersiz kullanıcı adı veya parola!")
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')  # Burada 'home', kullanıcı giriş yaptıktan sonra yönlendirilecekleri URL'nin adı olmalı
     else:
-        form = UserForm()
+        form = AuthenticationForm()
     return render(request, 'login/login.html', {'form': form})
 
+def user_logout(request):
+    logout(request)
+     #return redirect('home')  # Burada 'home', kullanıcı çıkış yaptıktan sonra yönlendirilecekleri URL'nin adı olmalı
 
-def profile(request):
-    # Kullanıcının mevcut profili varsa, bu profili al, yoksa None döndür
-    profile = Profile.objects.filter(user=request.user.id).first()
 
+
+
+@login_required              #Profil görüntülüyor yoksa oluşturuyoruz
+def profile_edit(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')  # Profil sayfasına yönlendir
+            return redirect('profile_detail', username=request.user.username)
     else:
         form = ProfileForm(instance=profile)
-    
-    return render(request, 'profile/profile.html', {'form': form})
+   # return render(request, 'profile/edit.html', {'form': form})
+
+
+
+def chat_room_list(request):                                   #CHAT ROOMSLARI LİSTELEME GÖSTERME
+
+    chat_rooms = ChatRoom.objects.all()
+   # return render(request, 'chat/room_list.html', {'chat_rooms': chat_rooms})
+
+
+
+@login_required                                           #Chat Room varsa members ekle o an ki kullanıcıyı yoksa oluştur
+def create_chat_room(request):
+    if request.method == 'POST':
+        form = ChatRoomForm(request.POST)
+        if form.is_valid():
+            chat_room = form.save()
+            chat_room.members.add(request.user)
+            return redirect('chat_room_list')
+    else:
+        form = ChatRoomForm()
+   # return render(request, 'chat/create_room.html', {'form': form})

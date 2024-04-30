@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+
 # Ana dizin yolu
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # settings.py
@@ -44,9 +45,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
+
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +61,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "chat.apps.ChatConfig"
 ]
+AUTH_USER_MODEL = 'chat.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -141,3 +149,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

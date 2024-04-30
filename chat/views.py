@@ -26,7 +26,7 @@ def login(request):
             user = authenticate(username=username, password=password, email=email)
             if user is not None:
                 # Kullanıcı doğrulandıysa, giriş yap
-                login(request, user)
+                #login(request, user)
                 return redirect('home')  # Başarılı girişten sonra yönlendirilecek sayfa
                 # Kullanıcının tarayıcısına çerez ekle
                 response = HttpResponse("Başarılı giriş!")

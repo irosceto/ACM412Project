@@ -1,5 +1,6 @@
 from django import forms
-from .models import User
+#from .models import User
+from django.contrib.auth import User
 from .models import Profile
 
 class UserForm(forms.ModelForm):

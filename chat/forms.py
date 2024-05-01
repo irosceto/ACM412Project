@@ -17,7 +17,7 @@ class ProfileForm(forms.ModelForm):
             profile.save()
         return profile
 
-def ChatRoomForm():
+class ChatRoomForm(forms.ModelForm):
 
     class Meta:
         model=ChatRoom

@@ -27,6 +27,7 @@ urlpatterns = [
    # path('admin/', admin.site.urls),
     path('register/', views.register, name='register'),  #kayıt için
     path('login/', views.user_login, name='login'), # login için
+    path('home/', views.home, name='home'), #homepage için
 
 ]
 

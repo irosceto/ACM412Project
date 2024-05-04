@@ -79,3 +79,7 @@ def search_chat_room(request):
     else:
         chat_rooms = ChatRoom.objects.filter(members=request.user)
         return render(request, 'your_template.html', {'chat_rooms': chat_rooms})
+
+#homepage 
+def home(request):
+    return render(request, 'home.html' )

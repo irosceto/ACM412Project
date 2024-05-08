@@ -5,7 +5,7 @@ from .models import User, Profile, ChatRoom
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['chat_rooms', 'profile_picture','user']
+        fields = ['chat_rooms', 'profile_picture']
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)

@@ -33,5 +33,4 @@ urlpatterns = [
     path('api/create_chat_room/', create_chat_room, name='api_create_chat_room'),
     path('api/search_chat_room/', search_chat_room, name='api_search_chat_room'),
 ]
-# Medya dosyaları için URL pattern'i ekle
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

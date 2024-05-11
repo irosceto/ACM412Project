@@ -1,85 +1,83 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
+from .forms import ProfileForm, ChatRoomForm
+from .models import Profile, ChatRoom
+from .serializers import ProfileSerializer, ChatRoomSerializer
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
 
-from chat.forms import ProfileForm, ChatRoomForm
-from chat.models import Profile, ChatRoom
 
 
+@api_view(['POST'])
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')  # Burada 'home', kullanıcı kaydolduktan sonra yönlendirilecekleri URL'nin adı olmalı
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
 
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({'success': True, 'message': 'User registered successfully.'}, status=HTTP_201_CREATED)
+        else:
+            return Response({'success': False, 'errors': serializer.errors}, status=HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
 def user_login(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')  # Burada 'home', kullanıcı giriş yaptıktan sonra yönlendirilecekleri URL'nin adı olmalı
-    else:
-        form = AuthenticationForm()
-    return render(request, 'login/login.html', {'form': form})
+    serializer = ObtainAuthToken().get_serializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.validated_data['user']
+        login(request, user)  # Kullanıcıyı oturum aç
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key , 'user_id': user.id})
+    return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
 def user_logout(request):
-    logout(request)
-     #return redirect('home')  # Burada 'home', kullanıcı çıkış yaptıktan sonra yönlendirilecekleri URL'nin adı olmalı
+    logout(request)  # Kullanıcıyı oturumdan çık
 
-
-
-
-@login_required              #Profil görüntülüyor yoksa oluşturuyoruz
+@login_required
+@api_view(['GET', 'POST'])
 def profile_edit(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
+        profile, created = Profile.objects.get_or_create(user=request.user)
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile_detail', username=request.user.username)
+            return JsonResponse({'success': True, 'message': 'Profile updated successfully.'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors}, status=HTTP_400_BAD_REQUEST)
     else:
-        form = ProfileForm(instance=profile)
-   # return render(request, 'profile/edit.html', {'form': form})
+        serializer = ProfileSerializer(request.user.profile)
+        return Response(serializer.data)
 
-
-
-def chat_room_list(request):                                   #CHAT ROOMSLARI LİSTELEME GÖSTERME
-
+@api_view(['GET'])
+def chat_room_list(request):
     chat_rooms = ChatRoom.objects.all()
-   # return render(request, 'chat/room_list.html', {'chat_rooms': chat_rooms})
+    serializer = ChatRoomSerializer(chat_rooms, many=True)
+    return Response(serializer.data)
 
-
-
-@login_required                                           #Chat Room varsa members ekle o an ki kullanıcıyı yoksa oluştur
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_chat_room(request):
     if request.method == 'POST':
-        form = ChatRoomForm(request.POST)
+        form = ChatRoomForm(request.data)
         if form.is_valid():
             chat_room = form.save()
             chat_room.members.add(request.user)
-            return redirect('chat_room_list')
-    else:
-        form = ChatRoomForm()
-   # return render(request, 'chat/create_room.html', {'form': form})
+            serializer = ChatRoomSerializer(chat_room)
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response({'success': False, 'errors': form.errors}, status=HTTP_400_BAD_REQUEST)
 
-
-
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def search_chat_room(request):
-    if request.method == 'POST':
-        search_query = request.POST.get('search_query')
-        chat_rooms = ChatRoom.objects.filter(name__icontains=search_query, members=request.user)
-        return render(request, 'your_template.html', {'chat_rooms': chat_rooms})
-    else:
-        chat_rooms = ChatRoom.objects.filter(members=request.user)
-        return render(request, 'your_template.html', {'chat_rooms': chat_rooms})
-
-#homepage 
-def home(request):
-    return render(request, 'home.html' )
+    search_query = request.data.get('search_query')
+    chat_rooms = ChatRoom.objects.filter(name__icontains=search_query, members=request.user)
+    serializer = ChatRoomSerializer(chat_rooms, many=True)
+    return Response(serializer.data)

@@ -148,3 +148,4 @@ CORS_ALLOWED_ORIGINS = [
 
 # Tüm istek yöntemlerini ve başlıklarını kabul etmek için:
 CORS_ALLOW_ALL_ORIGINS = True
+

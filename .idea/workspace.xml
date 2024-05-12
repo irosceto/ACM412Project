@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı">
-      <change beforePath="$PROJECT_DIR$/chat/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+    <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Birsürü değişiklik yapıldı -irem çetin">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,24 +50,80 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;irem&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/irem2/my-django-frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.token (1).executor": "Run",
+    "Python.token.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
+    "git-widget-placeholder": "irem",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/irem2/my-django-frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RunManager" selected="Python.token (1)">
+    <configuration name="token (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ACM412Project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/chatapplication" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/chatapplication/token.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="token" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ACM412Project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/chat" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/chat/token.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.token (1)" />
+        <item itemvalue="Python.token" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -99,7 +148,11 @@
       <workItem from="1715265873140" duration="5061000" />
       <workItem from="1715271289298" duration="1876000" />
       <workItem from="1715432131076" duration="14151000" />
-      <workItem from="1715455177288" duration="1092000" />
+      <workItem from="1715455177288" duration="1314000" />
+      <workItem from="1715465693967" duration="1844000" />
+      <workItem from="1715524514221" duration="721000" />
+      <workItem from="1715526915838" duration="426000" />
+      <workItem from="1715529414979" duration="8731000" />
     </task>
     <task id="LOCAL-00001" summary="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı">
       <option name="closed" value="true" />
@@ -109,7 +162,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715196324035</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Birsürü değişiklik yapıldı -irem çetin">
+      <option name="closed" value="true" />
+      <created>1715456472863</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715456472863</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Birsürü değişiklik yapıldı -irem çetin">
+      <option name="closed" value="true" />
+      <created>1715538070595</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715538070595</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,6 +186,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı" />
-    <option name="LAST_COMMIT_MESSAGE" value="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı" />
+    <MESSAGE value="Birsürü değişiklik yapıldı -irem çetin" />
+    <option name="LAST_COMMIT_MESSAGE" value="Birsürü değişiklik yapıldı -irem çetin" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ACM412Project$token__1_.coverage" NAME="token (1) Coverage Results" MODIFIED="1715531315582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatapplication" />
+    <SUITE FILE_PATH="coverage/ACM412Project$token.coverage" NAME="token Coverage Results" MODIFIED="1715531178856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chat" />
   </component>
 </project>

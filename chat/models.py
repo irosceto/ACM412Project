@@ -1,9 +1,10 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+
+from django.db import models
+
 
 class User(AbstractUser):
     chat_rooms = models.ManyToManyField('ChatRoom', related_name='member')
-
 
 class ChatRoom(models.Model):
     name = models.CharField(max_length=100)
@@ -20,9 +21,9 @@ class Message(models.Model):
         return f"{self.sender.username} -> {self.recipient.username}: {self.content}"
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     chat_rooms = models.ManyToManyField(ChatRoom, related_name='memberships')
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.username if self.user else "Unassociated Profile"

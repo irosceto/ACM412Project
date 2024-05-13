@@ -2,6 +2,7 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -12,13 +13,29 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 
 from .forms import ProfileForm, ChatRoomForm
 from .models import Profile, ChatRoom
-from .serializers import ProfileSerializer, ChatRoomSerializer
+from .serializers import ProfileSerializer, ChatRoomSerializer, TokenSerializer
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 
 
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
+
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+
+
+
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = AuthTokenSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key}, status=HTTP_200_OK)
 
 
 
@@ -36,8 +53,8 @@ def register(request):
 
 
 
-@api_view(['POST'])
-def user_login(request):
+#@api_view(['POST'])
+#def user_login(request):
     if request.method == 'POST':
         email = request.data.get('email')
         password = request.data.get('password')
@@ -51,7 +68,7 @@ def user_login(request):
         else:
             return JsonResponse({'error': 'Invalid email or password'}, status=400)
     else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+       return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
 
 
 @api_view(['POST'])
@@ -78,6 +95,8 @@ def chat_room_list(request):
     chat_rooms = ChatRoom.objects.all()
     serializer = ChatRoomSerializer(chat_rooms, many=True)
     return Response(serializer.data)
+
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

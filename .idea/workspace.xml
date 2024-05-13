@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Birsürü değişiklik yapıldı -irem çetin">
+    <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı">
+      <change beforePath="$PROJECT_DIR$/.idea/ACM412Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ACM412Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/eef25fe5-e16b-49fe-9729-0f1c6bc508ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/eef25fe5-e16b-49fe-9729-0f1c6bc508ad.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatapplication/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatapplication/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,31 +53,32 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2g0xGZ662AqIEAzE8PeciKiCbwp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.token (1).executor": "Run",
-    "Python.token.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
-    "git-widget-placeholder": "irem",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/irem2/my-django-frontend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.token (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.token.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/irem2/Downloads/my-django-frontend-master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Python.token (1)">
+}</component>
+  <component name="RunManager" selected="Django Server.ACM412Project">
     <configuration name="token (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ACM412Project" />
       <option name="ENV_FILES" value="" />
@@ -117,6 +125,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="ACM412Project" type="Python.DjangoServer" factoryName="Django server">
+      <module name="ACM412Project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="localhost" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.token (1)" />
@@ -153,6 +185,11 @@
       <workItem from="1715524514221" duration="721000" />
       <workItem from="1715526915838" duration="426000" />
       <workItem from="1715529414979" duration="8731000" />
+      <workItem from="1715623141506" duration="1092000" />
+      <workItem from="1715625189965" duration="887000" />
+      <workItem from="1715626122268" duration="716000" />
+      <workItem from="1715626881050" duration="17000" />
+      <workItem from="1715633840047" duration="4556000" />
     </task>
     <task id="LOCAL-00001" summary="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı">
       <option name="closed" value="true" />

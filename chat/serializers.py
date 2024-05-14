@@ -33,3 +33,10 @@ class ChatRoomSerializer(serializers.ModelSerializer):
 
 
 
+
+class TokenSerializer(serializers.Serializer):
+    token = serializers.CharField()
+
+
+
+

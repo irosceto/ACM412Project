@@ -44,7 +44,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,8 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "chat.apps.ChatConfig",
     'corsheaders',
-'rest_framework.authtoken' ,
+    'rest_framework.authtoken',
 ]
+
 AUTH_USER_MODEL = 'chat.User'
 ROOT_URLCONF = 'chatapplication.urls'
 

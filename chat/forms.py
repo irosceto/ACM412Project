@@ -20,4 +20,5 @@ class ChatRoomForm(forms.ModelForm):
 
     class Meta:
         model=ChatRoom
-        fields=[ 'members' , 'name']
+        fields=['name','members']
+

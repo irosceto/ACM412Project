@@ -10,6 +10,7 @@ class ChatRoom(models.Model):
     name = models.CharField(max_length=100)
     members = models.ManyToManyField(User, related_name='user_chat_rooms')
 
+
 class Message(models.Model):
     chat_room = models.ForeignKey(ChatRoom, related_name='messages', on_delete=models.CASCADE)
     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)

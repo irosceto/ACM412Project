@@ -8,6 +8,7 @@ User = get_user_model()
 
 
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -25,13 +26,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['username', 'email', 'profile_picture']  # Serileştirmek istediğiniz alanları buraya ekleyin
+
 class ChatRoomSerializer(serializers.ModelSerializer):
-
-  class Meta:
-     model = ChatRoom
-     fields = '__all__'
-
-
+    class Meta:
+        model = ChatRoom
+        fields = ['name','members']
 
 
 class TokenSerializer(serializers.Serializer):

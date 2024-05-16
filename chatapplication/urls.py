@@ -21,17 +21,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from chat.views import register, user_logout, profile_edit, chat_room_list, create_chat_room, \
-    search_chat_room, CustomAuthToken
+from chat.views import RegisterUser,  search_chat_room, chat_room_list, profile_edit, \
+    create_chat_room
+
 
 urlpatterns = [
-    path('api/register/', register, name='api_register'),
-   # path('api/login/', user_login, name='api_login'),
-    path('api/logout/', user_logout, name='api_logout'),
+    path('api/register/', RegisterUser.as_view(), name='api_register'),
+    path('api/login/', UserLogin.as_view(), name='api_login'),
+    path('api/logout/', UserLogout.as_view(), name='api_logout'),
     path('api/profile_edit/', profile_edit, name='api_profile_edit'),
     path('api/chat_rooms/', chat_room_list, name='api_chat_room_list'),
     path('api/create_chat_room/', create_chat_room, name='api_create_chat_room'),
     path('api/search_chat_room/', search_chat_room, name='api_search_chat_room'),
-    path('api/token/', CustomAuthToken.as_view()),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

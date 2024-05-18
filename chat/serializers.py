@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from .models import Profile, ChatRoom
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
 
 
 
@@ -30,12 +33,10 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
-        fields = ['name','members']
+        fields ='__all__'
 
 
 class TokenSerializer(serializers.Serializer):
     token = serializers.CharField()
-
-
 
 

@@ -6,6 +6,19 @@ from django.db import models
 class User(AbstractUser):
     chat_rooms = models.ManyToManyField('ChatRoom', related_name='member')
 
+    @classmethod
+    def create_user(cls, username, email, password, **extra_fields):
+        """
+        Create and return a regular user with an email and password.
+        """
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = cls.normalize_email(email)
+        user = cls(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
 class ChatRoom(models.Model):
     name = models.CharField(max_length=100)
     members = models.ManyToManyField(User, related_name='user_chat_rooms')

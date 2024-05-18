@@ -1,5 +1,9 @@
 import django
 from django.utils.translation import gettext
+
+import chat
+import chatapplication
+
 django.utils.translation.ugettext = gettext
 """
 
@@ -56,8 +60,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "chat.apps.ChatConfig",
     'corsheaders',
+    'channels',
 
-     'rest_framework',
+
+    'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
 ]
@@ -79,6 +85,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+ASGI_APPLICATION = 'chatapplication.asgi.application'
 
 
 TEMPLATES = [
@@ -151,8 +158,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React uygulamasının çalıştığı adres
 ]
@@ -164,9 +169,21 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+}
+
+
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],  # Redis sunucusunun adresi ve portu
+        },
+    },
 }

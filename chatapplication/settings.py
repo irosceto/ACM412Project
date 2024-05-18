@@ -56,8 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "chat.apps.ChatConfig",
     'corsheaders',
-
-     'rest_framework',
+    'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
 ]
@@ -159,6 +158,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # Tüm istek yöntemlerini ve başlıklarını kabul etmek için:
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -170,3 +170,9 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
+CORS_ALLOW_HEADERS = [
+    'Accept',
+    'Accept-Encodin',
+    'Authorization',
+    'Content-Type',
+]

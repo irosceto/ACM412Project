@@ -129,6 +129,19 @@ def create_chat_room(request):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])  
+@permission_classes([IsAuthenticated]) 
+def room_detail(request, room_id):
+    try:
+        room = ChatRoom.objects.get(id=room_id)
+        serializer = ChatRoomSerializer(room)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except ChatRoom.DoesNotExist:
+        return Response({"error": "Room not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def join_chat_room(request, room_id):

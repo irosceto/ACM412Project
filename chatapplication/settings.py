@@ -61,11 +61,12 @@ INSTALLED_APPS = [
     "chat.apps.ChatConfig",
     'corsheaders',
     'channels',
-
-
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+
+
+
 ]
 
 # settings.py

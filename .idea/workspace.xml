@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Birsürü değişiklik yapıldı -irem çetin">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Birsürü değişiklik yapıldı -irem çetin" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -171,7 +167,7 @@
       <workItem from="1716185876344" duration="6169000" />
       <workItem from="1716196448009" duration="2663000" />
       <workItem from="1716207250612" duration="974000" />
-      <workItem from="1716293433697" duration="5835000" />
+      <workItem from="1716293433697" duration="6160000" />
     </task>
     <task id="LOCAL-00001" summary="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı">
       <option name="closed" value="true" />
@@ -237,7 +233,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716293938697</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Birsürü değişiklik yapıldı -irem çetin">
+      <option name="closed" value="true" />
+      <created>1716302415585</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1716302415585</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

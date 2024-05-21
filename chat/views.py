@@ -19,11 +19,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import TokenSerializer
+from .serializers import TokenSerializer, MessageSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from .forms import ProfileForm
 
-from .models import Profile, ChatRoom
+from .models import Profile, ChatRoom, Message
 from .serializers import ProfileSerializer, ChatRoomSerializer, TokenSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -164,3 +164,5 @@ def search_chat_room(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+

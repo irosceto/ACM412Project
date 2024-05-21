@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 
 from django.db import models
-
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 class User(AbstractUser):
     chat_rooms = models.ManyToManyField('ChatRoom', related_name='member')
@@ -23,6 +24,17 @@ class ChatRoom(models.Model):
     name = models.CharField(max_length=100)
     members = models.ManyToManyField(User, related_name='user_chat_rooms')
 
+    def save(self, *args, **kwargs):
+        """
+        Override the save method to create a WebSocket channel for the chat room
+        """
+        super().save(*args, **kwargs)
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_add)(
+            f"chat_{self.id}",
+            "chat_group",
+        )
+
 
 class Message(models.Model):
     chat_room = models.ForeignKey(ChatRoom, related_name='messages', on_delete=models.CASCADE)
@@ -34,6 +46,25 @@ class Message(models.Model):
     def __str__(self):
         return f"{self.sender.username} -> {self.recipient.username}: {self.content}"
 
+    def save(self, *args, **kwargs):
+        """
+        Override the save method to send the message over WebSockets
+        """
+        super().save(*args, **kwargs)
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f"chat_{self.chat_room.id}",
+            {
+                "type": "chat.message",
+                "message": {
+                    "sender": self.sender.username,
+                    "recipient": self.recipient.username,
+                    "content": self.content
+                }
+            }
+        )
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     chat_rooms = models.ManyToManyField(ChatRoom, related_name='memberships')
@@ -41,3 +72,27 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username if self.user else "Unassociated Profile"
+
+    def save(self, *args, **kwargs):
+        """
+        Override the save method to subscribe to WebSocket channels for chat rooms
+        """
+        super().save(*args, **kwargs)
+        channel_layer = get_channel_layer()
+        for chat_room in self.chat_rooms.all():
+            async_to_sync(channel_layer.group_add)(
+                f"chat_{chat_room.id}",
+                self.user.username,
+            )
+
+    def delete(self, *args, **kwargs):
+        """
+        Override the delete method to unsubscribe from WebSocket channels for chat rooms
+        """
+        channel_layer = get_channel_layer()
+        for chat_room in self.chat_rooms.all():
+            async_to_sync(channel_layer.group_discard)(
+                f"chat_{chat_room.id}",
+                self.user.username,
+            )
+        super().delete(*args, **kwargs)

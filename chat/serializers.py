@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import Profile, ChatRoom
+from .models import Profile, ChatRoom, Message
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -40,3 +40,7 @@ class TokenSerializer(serializers.Serializer):
     token = serializers.CharField()
 
 
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields =  fields = ['id', 'sender', 'recipient', 'content', 'chat_room_id']

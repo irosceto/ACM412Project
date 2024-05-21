@@ -21,13 +21,11 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 from chat.views import (
     RegisterUser,
 
-
-
     TokenValidationAPIView,
     profile_edit,
     chat_room_list,
     create_chat_room,
-    search_chat_room, 
+    search_chat_room,
     UserLogin,
     room_detail,
 )
@@ -38,11 +36,13 @@ from chat.views import (
     chat_room_list, create_chat_room, join_chat_room, search_chat_room,UserLogin,
 )
 
+
 urlpatterns = [
     path('api/register/', RegisterUser.as_view(), name='register'),
     path('api/login/', UserLogin.as_view(),name='login'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
 
 
     path('api/token/validate/', TokenValidationAPIView.as_view(), name='token_validation'),

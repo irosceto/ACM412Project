@@ -52,22 +52,27 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+
     'django.contrib.staticfiles',
     "chat.apps.ChatConfig",
     'corsheaders',
-    'channels',
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
 
 
 
+
 ]
+ASGI_APPLICATION = 'chatapplication.asgi.application'
 
 # settings.py
 
@@ -84,9 +89,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+
 ]
 
-ASGI_APPLICATION = 'chatapplication.asgi.application'
+
 
 
 TEMPLATES = [
@@ -107,7 +113,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chatapplication.wsgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -159,12 +165,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React uygulamasının çalıştığı adres
-]
+
 
 # Tüm istek yöntemlerini ve başlıklarını kabul etmek için:
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+    # Diğer izin verilen kökenler buraya eklenebilir
+]
+
+CORS_ALLOW_CREDENTIALS = True
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -176,15 +186,16 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
-
-
-
+CORS_ALLOW_HEADERS=[
+    'Accept',
+    'Accept-Encoding',
+    'Authorization',
+    'Content-Type',
+]
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],  # Redis sunucusunun adresi ve portu
-        },
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
+

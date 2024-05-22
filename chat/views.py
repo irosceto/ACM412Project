@@ -24,6 +24,11 @@ from rest_framework_simplejwt.tokens import AccessToken
 from .forms import ProfileForm
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from .models import Profile, ChatRoom
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import authenticate, login
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from .serializers import ProfileSerializer, ChatRoomSerializer, TokenSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -45,11 +50,6 @@ class RegisterUser(APIView):
                                         last_name=last_name)
         return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate, login
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 class UserLogin(APIView):
     def post(self, request):

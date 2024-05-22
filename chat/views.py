@@ -22,7 +22,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import TokenSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from .forms import ProfileForm
-
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from .models import Profile, ChatRoom
 from .serializers import ProfileSerializer, ChatRoomSerializer, TokenSerializer
 from django.contrib.auth import get_user_model
@@ -67,7 +67,13 @@ class UserLogin(APIView):
             refresh_token = RefreshToken.for_user(user)
 
             # Erişim tokeni oluştur
-            access_token = AccessToken.for_user(user)
+            #access_token = AccessToken.for_user(user)
+            try:
+                # Erişim tokeni oluştur
+                access_token = AccessToken.for_user(user)
+            except TokenError as e:
+                return Response({'error': 'Could not generate access token'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
             # Response oluştur
             return Response({

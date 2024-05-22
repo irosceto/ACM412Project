@@ -22,7 +22,8 @@ from pathlib import Path
 
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Medya dosyalarının kaydedileceği ana dizin
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -48,6 +49,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -59,6 +62,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    
 ]
 
 # settings.py
@@ -99,6 +103,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chatapplication.wsgi.application'
+ASGI_APPLICATION = 'chatapplication.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer', # veya RedisChannelLayer kullanabilirsiniz
+        'ROUTING': 'chatapplication.routing.channel_routing',
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -176,3 +188,20 @@ CORS_ALLOW_HEADERS = [
     'Authorization',
     'Content-Type',
 ]
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

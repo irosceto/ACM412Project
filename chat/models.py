@@ -1,5 +1,4 @@
 from django.contrib.auth.models import AbstractUser
-
 from django.db import models
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -9,9 +8,6 @@ class User(AbstractUser):
 
     @classmethod
     def create_user(cls, username, email, password, **extra_fields):
-        """
-        Create and return a regular user with an email and password.
-        """
         if not email:
             raise ValueError('The Email field must be set')
         email = cls.normalize_email(email)
@@ -25,16 +21,12 @@ class ChatRoom(models.Model):
     members = models.ManyToManyField(User, related_name='user_chat_rooms')
 
     def save(self, *args, **kwargs):
-        """
-        Override the save method to create a WebSocket channel for the chat room
-        """
         super().save(*args, **kwargs)
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_add)(
             f"chat_{self.id}",
             "chat_group",
         )
-
 
 class Message(models.Model):
     chat_room = models.ForeignKey(ChatRoom, related_name='messages', on_delete=models.CASCADE)
@@ -47,15 +39,12 @@ class Message(models.Model):
         return f"{self.sender.username} -> {self.recipient.username}: {self.content}"
 
     def save(self, *args, **kwargs):
-        """
-        Override the save method to send the message over WebSockets
-        """
         super().save(*args, **kwargs)
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             f"chat_{self.chat_room.id}",
             {
-                "type": "chat.message",
+                "type": "chat_message",
                 "message": {
                     "sender": self.sender.username,
                     "recipient": self.recipient.username,
@@ -63,7 +52,6 @@ class Message(models.Model):
                 }
             }
         )
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -74,9 +62,6 @@ class Profile(models.Model):
         return self.user.username if self.user else "Unassociated Profile"
 
     def save(self, *args, **kwargs):
-        """
-        Override the save method to subscribe to WebSocket channels for chat rooms
-        """
         super().save(*args, **kwargs)
         channel_layer = get_channel_layer()
         for chat_room in self.chat_rooms.all():
@@ -86,9 +71,6 @@ class Profile(models.Model):
             )
 
     def delete(self, *args, **kwargs):
-        """
-        Override the delete method to unsubscribe from WebSocket channels for chat rooms
-        """
         channel_layer = get_channel_layer()
         for chat_room in self.chat_rooms.all():
             async_to_sync(channel_layer.group_discard)(

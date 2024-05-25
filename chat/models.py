@@ -1,10 +1,10 @@
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    chat_rooms = models.ManyToManyField('ChatRoom', related_name='member')
+    chat_rooms = models.ManyToManyField('ChatRoom', related_name='membership')
 
     @classmethod
     def create_user(cls, username, email, password, **extra_fields):
@@ -18,7 +18,7 @@ class User(AbstractUser):
 
 class ChatRoom(models.Model):
     name = models.CharField(max_length=100)
-    members = models.ManyToManyField(User, related_name='user_chat_rooms')
+    members = models.ManyToManyField(User, related_name='chat_room_members')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -31,12 +31,11 @@ class ChatRoom(models.Model):
 class Message(models.Model):
     chat_room = models.ForeignKey(ChatRoom, related_name='messages', on_delete=models.CASCADE)
     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
-    recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.sender.username} -> {self.recipient.username}: {self.content}"
+        return f"{self.sender.username}: {self.content}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -47,12 +46,10 @@ class Message(models.Model):
                 "type": "chat_message",
                 "message": {
                     "sender": self.sender.username,
-                    "recipient": self.recipient.username,
                     "content": self.content
                 }
             }
         )
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     chat_rooms = models.ManyToManyField(ChatRoom, related_name='memberships')
@@ -61,8 +58,8 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username if self.user else "Unassociated Profile"
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+    async def save(self, *args, **kwargs):
+        await super().save(*args, **kwargs)
         channel_layer = get_channel_layer()
         for chat_room in self.chat_rooms.all():
             async_to_sync(channel_layer.group_add)(
@@ -70,11 +67,11 @@ class Profile(models.Model):
                 self.user.username,
             )
 
-    def delete(self, *args, **kwargs):
+    async def delete(self, *args, **kwargs):
         channel_layer = get_channel_layer()
         for chat_room in self.chat_rooms.all():
             async_to_sync(channel_layer.group_discard)(
                 f"chat_{chat_room.id}",
                 self.user.username,
             )
-        super().delete(*args, **kwargs)
+        await super().delete(*args, **kwargs)

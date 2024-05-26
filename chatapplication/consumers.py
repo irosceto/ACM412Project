@@ -100,8 +100,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         try:
             await self.send(text_data=json.dumps({
-                'message': event['message'],
-                "username": event.get('username', 'Anonymous')
+                'content': event['message'],
+                'sender': event.get('username', 'Anonymous')
             }))
         except Exception as e:
             logger.error(f"Error sending message to WebSocket: {e}")

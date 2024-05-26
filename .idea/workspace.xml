@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Birsürü değişiklik yapıldı -irem çetin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/consumers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/routing.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/routing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatapplication/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatapplication/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/consumers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -184,7 +181,8 @@
       <workItem from="1716574615944" duration="18207000" />
       <workItem from="1716639936435" duration="891000" />
       <workItem from="1716658426895" duration="17017000" />
-      <workItem from="1716729554934" duration="436000" />
+      <workItem from="1716729554934" duration="2149000" />
+      <workItem from="1716759738918" duration="2718000" />
     </task>
     <task id="LOCAL-00001" summary="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı">
       <option name="closed" value="true" />
@@ -290,7 +288,23 @@
       <option name="project" value="LOCAL" />
       <updated>1716640125815</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Birsürü değişiklik yapıldı -irem çetin">
+      <option name="closed" value="true" />
+      <created>1716730144017</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1716730144018</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Birsürü değişiklik yapıldı -irem çetin">
+      <option name="closed" value="true" />
+      <created>1716730195530</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1716730195530</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from django.http import JsonResponse
@@ -19,7 +20,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import TokenSerializer, MessageSerializer
+from .serializers import TokenSerializer, MessageSerializer, UserSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from .forms import ProfileForm
 
@@ -166,21 +167,12 @@ def search_chat_room(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def chat_room_users(request, chat_room_id):
-    try:
-        # Belirli bir sohbet odasını al
-        chat_room = ChatRoom.objects.get(id=chat_room_id)
 
-        # Sohbet odasının üyelerini al
-        room_members = chat_room.members.all()
+class ChatRoomUsersView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
-        # Kullanıcıları serileştir
-        serializer = UserSerializer(room_members, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except ChatRoom.DoesNotExist:
-        return Response({"error": "Chat room not found"}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def get_queryset(self):
+        chat_room_id = self.kwargs['chat_room_id']
+        chat_room = get_object_or_404(ChatRoom, id=chat_room_id)
+        return chat_room.members.all()

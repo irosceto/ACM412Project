@@ -47,7 +47,7 @@ SECRET_KEY = 'django-insecure-u_3d99w_iuiovo*(e!b-!o(frt(5)*)w*d_1c(yrxsv)*4#%wv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -76,6 +76,7 @@ INSTALLED_APPS = [
 
 
 # settings.py
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 AUTH_USER_MODEL = 'chat.User'
 
@@ -83,13 +84,14 @@ ROOT_URLCONF = 'chatapplication.urls'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
 
 ]
 
@@ -171,6 +173,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Tüm istek yöntemlerini ve başlıklarını kabul etmek için:
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
     # Diğer izin verilen kökenler buraya eklenebilir
 ]
@@ -246,13 +249,15 @@ SECRET_KEY = 'django-insecure-u_3d99w_iuiovo*(e!b-!o(frt(5)*)w*d_1c(yrxsv)*4#%wv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+
 
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
     'daphne',
+
+    'channels',
 
     'rest_framework',
     'django.contrib.admin',
@@ -281,6 +286,7 @@ AUTH_USER_MODEL = 'chat.User'
 ROOT_URLCONF = 'chatapplication.urls'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -288,7 +294,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
 
 ]
 
@@ -394,6 +400,8 @@ CORS_ALLOW_HEADERS=[
     'Accept-Encoding',
     'Authorization',
     'Content-Type',
+    'authorization',
+    'content-type',
 ]
 
 

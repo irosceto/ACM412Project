@@ -6,8 +6,7 @@ from urllib.parse import parse_qs
 
 import json
 from rest_framework_simplejwt.tokens import AccessToken
-from chat.models import ChatRoom, Message 
-import logging
+from chat.models import ChatRoom, Message
 
 User = get_user_model()
 logger = logging.getLogger(__name__)

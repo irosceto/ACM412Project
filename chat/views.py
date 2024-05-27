@@ -166,3 +166,21 @@ def search_chat_room(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def chat_room_users(request, chat_room_id):
+    try:
+        # Belirli bir sohbet odasını al
+        chat_room = ChatRoom.objects.get(id=chat_room_id)
+
+        # Sohbet odasının üyelerini al
+        room_members = chat_room.members.all()
+
+        # Kullanıcıları serileştir
+        serializer = UserSerializer(room_members, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except ChatRoom.DoesNotExist:
+        return Response({"error": "Chat room not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

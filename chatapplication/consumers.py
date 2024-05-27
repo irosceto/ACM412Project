@@ -1,77 +1,109 @@
-import json
+import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
-from chat.models import ChatRoom, Message
 from channels.db import database_sync_to_async
+from django.contrib.auth import get_user_model
+from urllib.parse import parse_qs
+
+import json
+from rest_framework_simplejwt.tokens import AccessToken
+from chat.models import ChatRoom, Message 
+import logging
+
+User = get_user_model()
+logger = logging.getLogger(__name__)
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_id = self.scope['url_route']['kwargs']['chat_room_id']
-        self.room_group_name = f'chat_{self.room_id}'
+        try:
+            # Extract chat room id from URL parameters
+            self.room_id = self.scope['url_route']['kwargs']['chat_room_id']
+            self.room_group_name = f'chat_{self.room_id}'
 
-        # Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+            # Extract query parameters
+            query_params = parse_qs(self.scope['query_string'].decode())
 
-        await self.accept()
+            # Get access_token from query parameters
+            access_token = query_params.get('access_token', [''])[0]
+
+            # Authenticate user
+            user = await self.authenticate_user(access_token)
+            if user:
+                self.user = user
+            else:
+                logger.error("Failed to authenticate user")
+                await self.close()
+                return
+
+            # Join chat room group
+            await self.channel_layer.group_add(
+                self.room_group_name,
+                self.channel_name
+            )
+
+            await self.accept()
+            logger.info(f"WebSocket connection established for user {self.user.username}")
+        except Exception as e:
+            logger.error(f"Error establishing WebSocket connection: {e}")
+            await self.close()
+
+    async def authenticate_user(self, access_token):
+        try:
+            # Decode the access token and get the user
+            token = AccessToken(access_token)
+            user_id = token['user_id']
+            user = await database_sync_to_async(User.objects.get)(id=user_id)
+            return user
+        except Exception as e:
+            logger.error(f"Authentication error: {e}")
+            return None
 
     async def disconnect(self, close_code):
-        # Leave room group
+        # Leave chat room group
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
-
-    @database_sync_to_async
-    def get_user(self):
-        if self.scope['user'].is_authenticated:
-            return self.scope['user']
+        if hasattr(self, 'user'):
+            logger.info(f"WebSocket connection closed for user {self.user.username}")
         else:
-            return None
+            logger.info("WebSocket connection closed")
 
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        sender = await self.get_user()
+        # Parse incoming JSON message
+        try:
+            text_data_json = json.loads(text_data)
+            message = text_data_json['message']
 
-        if sender:
-            # Save message to database
-            await self.save_message(sender, message)
+            # Save the message to the database
+            await self.save_message(self.user, self.room_id, message)
+        except Exception as e:
+            logger.error(f"Error parsing incoming message: {e}")
+            return
 
-            # Broadcast message to room group
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    'type': 'chat_message',
-                    'message': message,
-                    'sender': sender.username
-                }
-            )
-        else:
-            # Handle anonymous user or error
-            pass
-    # Receive message from room group
+        # Broadcast message to chat room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message,
+                'username': self.user.username if hasattr(self, 'user') else None
+            }
+        )
+
+    @database_sync_to_async
+    def save_message(self, user, room_id, message):
+        try:
+            room = ChatRoom.objects.get(id=room_id)
+            Message.objects.create(sender=user, chat_room=room, content=message)
+        except ChatRoom.DoesNotExist:
+            logger.error(f"Chat room {room_id} does not exist")
+
     async def chat_message(self, event):
-        message = event['message']
-        sender = event['sender']
-
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message,
-            'sender': sender
-        }))
-
-
-@database_sync_to_async
-def save_message(self, sender, message):
-    try:
-        room = ChatRoom.objects.get(id=self.name)
-    except ChatRoom.DoesNotExist:
-        # Odanın bulunamaması durumunda burada uygun bir işlem yapılabilir.
-        # Örneğin, bir hata kaydı oluşturulabilir veya uygun bir mesaj kullanıcıya gönderilebilir.
-        print(f"Chat room with id {self.chat_room_id} does not exist.")
-        return None
-
-    message_obj = Message.objects.create(chat_room=room, sender=sender, content=message)
-    return message_obj
+        try:
+            await self.send(text_data=json.dumps({
+                'content': event['message'],
+                'sender': event.get('username', 'Anonymous')
+            }))
+        except Exception as e:
+            logger.error(f"Error sending message to WebSocket: {e}")

@@ -33,7 +33,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
-        fields ='__all__'
+        fields = '__all__'
 
 
 class TokenSerializer(serializers.Serializer):

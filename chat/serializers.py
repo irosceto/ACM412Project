@@ -25,15 +25,20 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+
 class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    email = serializers.EmailField(source='user.email')
+
     class Meta:
         model = Profile
-        fields = ['username', 'email', 'profile_picture']  # Serileştirmek istediğiniz alanları buraya ekleyin
-
+        fields = ['username', 'email', 'profile_picture']
 class ChatRoomSerializer(serializers.ModelSerializer):
+    members = UserSerializer(many=True, read_only=True)  # members alanı birçoktan çok ilişki olduğu için many=True kullanılır
+
     class Meta:
         model = ChatRoom
-        fields = '__all__'
+        fields = ['id', 'name', 'members']
 
 
 class TokenSerializer(serializers.Serializer):
@@ -44,3 +49,4 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields =  fields = ['id', 'sender', 'recipient', 'content', 'chat_room_id']
+

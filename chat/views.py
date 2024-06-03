@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListAPIView
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -91,17 +92,17 @@ class TokenValidationAPIView(APIView):
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def profile_edit(request):
-    if request.method == 'POST':
-        profile, created = Profile.objects.get_or_create(user=request.user)
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True, 'message': 'Profile updated successfully.'})
-        else:
-            return JsonResponse({'success': False, 'errors': form.errors}, status=HTTP_400_BAD_REQUEST)
-    else:
-        serializer = ProfileSerializer(request.user.profile)
+    if request.method == 'GET':
+        profile = Profile.objects.get(user=request.user)
+        serializer = ProfileSerializer(profile)
         return Response(serializer.data)
+    elif request.method == 'POST':
+        profile = Profile.objects.get(user=request.user)
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -167,19 +168,19 @@ def search_chat_room(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+class RoomMembersView(APIView):
+    def get(self, request, chat_room_id):
+        try:
+            # Belirli bir odanın üyelerini çekmek için oda nesnesini buluyoruz
+            chat_room = ChatRoom.objects.get(id=chat_room_id)
+        except ChatRoom.DoesNotExist:
+            return Response({"error": "Chat room does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
-class ChatRoomUsersView(generics.ListAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+        # Odanın üyelerini çekiyoruz
+        room_members = chat_room.members.all()
 
-    def get_queryset(self):
-        chat_room_id = self.kwargs['chat_room_id']
-        chat_room = get_object_or_404(ChatRoom, id=chat_room_id)
-        return chat_room.members.all()
+        # Üye isimlerini bir listede topluyoruz
+        member_names = [member.username for member in room_members]
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def user_profile(request):
-    profile = Profile.objects.get(user=request.user)
-    serializer = ProfileSerializer(profile)
-    return Response(serializer.data)
+        # JSON formatında üye isimlerini döndürüyoruz
+        return Response({"members": member_names}, status=status.HTTP_200_OK)

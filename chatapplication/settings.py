@@ -23,16 +23,19 @@ from pathlib import Path
 # Ana dizin yolu
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # settings.py
-
 import os
 
+# Django projenizin ana dizini
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Medya dosyalarının kaydedileceği ana dizin
+# Medya dosyalarının saklanacağı dizin
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Medya dosyalarının sunucudaki URL'si
+# Medya dosyalarının URL'si
 MEDIA_URL = '/media/'
+
+# Profile resimlerinin saklanacağı klasör
+PROFILE_PICTURE_FOLDER = 'profile_pictures'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -231,10 +234,10 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Medya dosyalarının kaydedileceği ana dizin
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'profile_pictures')
 
 # Medya dosyalarının sunucudaki URL'si
-MEDIA_URL = '/media/'
+MEDIA_URL = '/profile_pictures/'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -423,4 +426,8 @@ CACHES = {
         }
     }
 }
+
+# settings.py
+
+# Diğer ayarlarınızın üzerine ekleyin veya ayarlarınıza göre uygun bir yere yerleştirin.
 

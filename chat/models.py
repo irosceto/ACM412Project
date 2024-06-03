@@ -1,7 +1,12 @@
+import os
+
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
+from chatapplication.settings import PROFILE_PICTURE_FOLDER
+
 
 class User(AbstractUser):
     chat_rooms = models.ManyToManyField('ChatRoom', related_name='membership')
@@ -50,6 +55,20 @@ class Message(models.Model):
                 }
             }
         )
+import os
+from django.conf import settings
+from django.db import models
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Medya dosyalarının kaydedileceği ana dizin
+MEDIA_ROOT = os.path.join(BASE_DIR, 'profile_pictures')
+
+# Medya dosyalarının sunucudaki URL'si
+MEDIA_URL = '/profile_pictures/'
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     chat_rooms = models.ManyToManyField(ChatRoom, related_name='memberships')
@@ -58,20 +77,21 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username if self.user else "Unassociated Profile"
 
-    async def save(self, *args, **kwargs):
-        await super().save(*args, **kwargs)
-        channel_layer = get_channel_layer()
-        for chat_room in self.chat_rooms.all():
-            async_to_sync(channel_layer.group_add)(
-                f"chat_{chat_room.id}",
-                self.user.username,
-            )
+    def save(self, *args, **kwargs):
+        if self.user:
+            super().save(*args, **kwargs)
+            channel_layer = get_channel_layer()
+            for chat_room in self.chat_rooms.all():
+                async_to_sync(channel_layer.group_add)(
+                    f"chat_{chat_room.id}",
+                    self.user.username,
+                )
 
-    async def delete(self, *args, **kwargs):
+    def delete(self, *args, **kwargs):
         channel_layer = get_channel_layer()
         for chat_room in self.chat_rooms.all():
             async_to_sync(channel_layer.group_discard)(
                 f"chat_{chat_room.id}",
                 self.user.username,
             )
-        await super().delete(*args, **kwargs)
+        super().delete(*args, **kwargs)

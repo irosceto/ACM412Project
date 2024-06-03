@@ -36,7 +36,7 @@ from chat.views import (
 from django.urls import path
 from chat.views import (
     RegisterUser,  TokenValidationAPIView, profile_edit,
-    chat_room_list, create_chat_room, join_chat_room, search_chat_room,UserLogin, user_profile
+    chat_room_list, create_chat_room, join_chat_room, search_chat_room,UserLogin, 
 )
 
 

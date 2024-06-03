@@ -34,7 +34,7 @@ from chat.views import (
 from django.urls import path
 from chat.views import (
     RegisterUser,  TokenValidationAPIView, profile_edit,
-    chat_room_list, create_chat_room, join_chat_room, search_chat_room,UserLogin,
+    chat_room_list, create_chat_room, join_chat_room, search_chat_room,UserLogin, user_profile
 )
 
 
@@ -54,5 +54,6 @@ urlpatterns = [
     path('api/search_chat_room/', search_chat_room, name='search_chat_room'),
     path('api/chat_rooms/<int:room_id>', room_detail, name='room_detail'),
     path('chat_rooms/<int:chat_room_id>/users/', ChatRoomUsersView.as_view(), name='chat_room_users'),
+    path('api/user_profile/', user_profile, name='user_profile'),
 ]
 

@@ -176,3 +176,10 @@ class ChatRoomUsersView(generics.ListAPIView):
         chat_room_id = self.kwargs['chat_room_id']
         chat_room = get_object_or_404(ChatRoom, id=chat_room_id)
         return chat_room.members.all()
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_profile(request):
+    profile = Profile.objects.get(user=request.user)
+    serializer = ProfileSerializer(profile)
+    return Response(serializer.data)

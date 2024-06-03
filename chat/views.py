@@ -89,22 +89,29 @@ class TokenValidationAPIView(APIView):
         serializer = TokenSerializer(instance=request.auth)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def profile_edit(request):
-    if request.method == 'GET':
+    # Kimlik doğrulamasının başarısız olup olmadığını kontrol edin
+    if not request.user.is_authenticated:
+        return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    try:
         profile = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        # Profil bulunamazsa yeni bir profil oluştur
+        profile = Profile.objects.create(user=request.user)
+
+    if request.method == 'GET':
         serializer = ProfileSerializer(profile)
         return Response(serializer.data)
     elif request.method == 'POST':
-        profile = Profile.objects.get(user=request.user)
         serializer = ProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def chat_room_list(request):

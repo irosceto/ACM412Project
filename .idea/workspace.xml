@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d3de0ebd-1a3c-4056-bade-db5658be8003" name="Changes" comment="Birsürü değişiklik yapıldı -irem çetin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatapplication/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatapplication/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +84,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\irem2\OneDrive\Masaüstü\DjangoProject\ACM412Project\media" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.token (1)">
     <configuration name="token (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ACM412Project" />
@@ -200,7 +205,7 @@
       <workItem from="1716841173198" duration="1871000" />
       <workItem from="1716922443552" duration="7644000" />
       <workItem from="1717361189656" duration="3107000" />
-      <workItem from="1717416281462" duration="1480000" />
+      <workItem from="1717416281462" duration="3815000" />
     </task>
     <task id="LOCAL-00001" summary="Apı ya uygun şekilde viewlar yazıldı htmller kaldırıldı">
       <option name="closed" value="true" />
@@ -346,7 +351,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717365441758</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Birsürü değişiklik yapıldı -irem çetin">
+      <option name="closed" value="true" />
+      <created>1717418694140</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1717418694140</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,7 +386,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/chatapplication/urls.py</url>
-          <line>42</line>
+          <line>44</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

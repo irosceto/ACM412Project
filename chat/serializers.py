@@ -4,8 +4,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import Profile, ChatRoom, Message
 from django.contrib.auth import get_user_model
-from django.core.files.base import ContentFile
-import base64
 
 User = get_user_model()
 
@@ -31,29 +29,10 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
     email = serializers.EmailField(source='user.email')
-    profile_picture = serializers.ImageField(required=False)
 
     class Meta:
         model = Profile
         fields = ['username', 'email', 'profile_picture']
-
-    def update(self, instance, validated_data):
-        profile_picture_data = validated_data.pop('profile_picture', None)
-        # Geri kalan alanları güncelle
-        instance = super().update(instance, validated_data)
-
-        if profile_picture_data:
-            # Profil resmini işle
-            decoded_image = base64.b64decode(profile_picture_data.read())
-            instance.profile_picture.save(
-                f'{instance.user.username}_profile_picture.png',
-                ContentFile(decoded_image),
-                save=False
-            )
-            instance.save()
-
-        return instance
-
 class ChatRoomSerializer(serializers.ModelSerializer):
     members = UserSerializer(many=True, read_only=True)  # members alanı birçoktan çok ilişki olduğu için many=True kullanılır
 

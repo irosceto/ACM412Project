@@ -194,11 +194,17 @@ class RoomMembersView(APIView):
         # JSON formatında üye isimlerini döndürüyoruz
         return Response({"members": member_names}, status=status.HTTP_200_OK)
     
-class UserProfileView(APIView):
-    def get(self, request, username):
-        try:
-            user_profile = UserProfile.objects.get(user__username=username)
-            serializer = UserProfileSerializer(user_profile)
-            return Response(serializer.data)
-        except UserProfile.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+@api_view(['GET'])
+def profile_detail(request, username):
+    # Kullanıcı profili
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+
+    # Kullanıcı profili ile ilgili bilgiler
+    profile_data = {
+        'username': profile.user.username,
+        'email': profile.user.email,
+        'profile_picture': profile.profile_picture.url if profile.profile_picture else None
+    }
+
+    return Response(profile_data)

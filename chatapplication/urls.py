@@ -32,7 +32,7 @@ from chat.views import (
     UserLogin,
     room_detail,
     RoomMembersView,
-    UserProfileView
+    profile_detail
 )
 
 from django.urls import path
@@ -58,7 +58,7 @@ urlpatterns = [
     path('api/search_chat_room/', search_chat_room, name='search_chat_room'),
     path('api/chat_rooms/<int:room_id>', room_detail, name='room_detail'),
     path('chat_rooms/<int:chat_room_id>', RoomMembersView.as_view(), name='chat_room_users'),
-    path('profile/<str:username>/', UserProfileView.as_view(), name='user_profile'),
+    path('api/profile/<str:username>/', profile_detail, name='profile_detail'),
 ]
 
 if settings.DEBUG:

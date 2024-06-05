@@ -24,6 +24,8 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import TokenSerializer, MessageSerializer, UserSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from .forms import ProfileForm
+from .models import UserProfile
+from .serializers import UserProfileSerializer
 
 from .models import Profile, ChatRoom, Message
 from .serializers import ProfileSerializer, ChatRoomSerializer, TokenSerializer
@@ -191,3 +193,12 @@ class RoomMembersView(APIView):
 
         # JSON formatında üye isimlerini döndürüyoruz
         return Response({"members": member_names}, status=status.HTTP_200_OK)
+    
+class UserProfileView(APIView):
+    def get(self, request, username):
+        try:
+            user_profile = UserProfile.objects.get(user__username=username)
+            serializer = UserProfileSerializer(user_profile)
+            return Response(serializer.data)
+        except UserProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)

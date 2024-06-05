@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
+
 from chat.views import (
     RegisterUser,
 
@@ -30,13 +31,14 @@ from chat.views import (
     search_chat_room,
     UserLogin,
     room_detail,
-     RoomMembersView
+    RoomMembersView,
+    UserProfileView
 )
 
 from django.urls import path
 from chat.views import (
     RegisterUser,  TokenValidationAPIView, profile_edit,
-    chat_room_list, create_chat_room, join_chat_room, search_chat_room,UserLogin,
+    chat_room_list, create_chat_room, join_chat_room, search_chat_room,UserLogin
 )
 
 
@@ -56,6 +58,8 @@ urlpatterns = [
     path('api/search_chat_room/', search_chat_room, name='search_chat_room'),
     path('api/chat_rooms/<int:room_id>', room_detail, name='room_detail'),
     path('chat_rooms/<int:chat_room_id>', RoomMembersView.as_view(), name='chat_room_users'),
+    path('profile/<str:username>/', UserProfileView.as_view(), name='user_profile'),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

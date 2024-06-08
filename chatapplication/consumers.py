@@ -40,7 +40,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
 
             await self.accept()
-            logger.info(f"WebSocket connection established for user {self.user.username}")
+            past_messages = await self.get_room_messages(self.room_id)
+            await self.send_past_messages(past_messages)
+            logger.info(f"WebSocket connection established for user {self.user.username} with past messages sent")
+           
         except Exception as e:
             logger.error(f"Error establishing WebSocket connection: {e}")
             await self.close()
@@ -100,9 +103,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         # Send message to WebSocket
         try:
-            await self.send(text_data=json.dumps({
-                'content': event['message'],
-                'sender': event.get('username', 'Anonymous')
-            }))
+           await self.send(text_data=json.dumps({
+            
+              'content': event['message'],
+              'sender': event.get('username', 'Anonymous')        
+           })) 
         except Exception as e:
             logger.error(f"Error sending message to WebSocket: {e}")
+
+    @database_sync_to_async
+    def get_room_messages(self, room_id):
+        room = ChatRoom.objects.get(id=self.room_id)
+        messages = room.messages.order_by('timestamp')[:50]  # Son 50 mesajı al
+        return [{
+            'id': message.id,
+            'sender': message.sender.username,
+            'content': message.content,
+            'timestamp': message.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        } for message in messages]
+    
+    async def send_past_messages(self, messages):
+        for message in messages:
+            await self.send(text_data=json.dumps({
+                'type': 'old_message',
+                'content': message['content'],
+                'sender': message['sender'],
+                'timestamp': message['timestamp']
+            }))
+    

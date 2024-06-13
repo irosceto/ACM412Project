@@ -197,12 +197,16 @@ REST_FRAMEWORK = {
 }
 
 
-CORS_ALLOW_HEADERS=[
+CORS_ALLOW_HEADERS = [
     'Accept',
     'Accept-Encoding',
     'Authorization',
     'Content-Type',
+    'Origin',
+    'X-CSRFToken',
+    'X-Requested-With',
 ]
+
 
 
 import django

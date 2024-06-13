@@ -178,6 +178,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
+    "https://my-django-frontend-1.onrender.com"
     # Diğer izin verilen kökenler buraya eklenebilir
 ]
 

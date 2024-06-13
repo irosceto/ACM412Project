@@ -179,6 +179,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
     "https://my-django-frontend-1.onrender.com"
+    "https://chatapplicationwithdjango-13eb.onrender.com"
     # Diğer izin verilen kökenler buraya eklenebilir
 ]
 
